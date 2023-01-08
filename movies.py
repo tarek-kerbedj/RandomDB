@@ -1,6 +1,8 @@
 import pandas as pd
 import streamlit as st
 import math
+import json
+from PyMovieDb import IMDB
 import random
 import numpy as np
 from time import perf_counter
@@ -9,9 +11,10 @@ from PIL import Image
 from io import BytesIO
 from bs4 import BeautifulSoup
 import os
+
 st.set_page_config(page_title='RandomDB',layout='wide', page_icon="🎥")
 https = PoolManager()
-
+imdb = IMDB()    
 st.markdown("""
 <style>
 div.stButton > button:first-child {
@@ -90,20 +93,17 @@ if random_pick:
         #pick=random.randint(0,ls1.shape[0])
     
     try:
-        
         placeholder.empty()
-        imdb_id=base_url+ls1.iloc[pick]['imdb_title_id']       
-        response = https.request('GET',imdb_id)
-        soup = BeautifulSoup(response.data, 'html')
-
-        i=soup.select_one("body > div.section > div.container > div.row.mt-5.mb-4 > div.col-md-4.ml-auto > figure > a > img")['src']
+        imdb_id=base_url+ls1.iloc[pick]['imdb_title_id']    
+        res = imdb.get_by_id(ls1.iloc[pick]['imdb_title_id'].replace("-i","tt"))
+        im=json.loads(res)['poster']
         col6.header(ls1.iloc[pick]['original_title']+' '+'('+str(ls1.iloc[pick]['year'])+')')
         col6.subheader("rated "+str(ls1.iloc[pick]['avg_vote'])+"/ 10")
-        col6.image(i)
+        col6.image(im)
         with st.expander("movie description"):
- 
-                st.write(ls1.iloc[pick]['description'])
 
+                st.write(ls1.iloc[pick]['description'])
+    
     except(TypeError):
         #col6.image('https://c.tenor.com/yTEHRx1ofG4AAAAC/umaru-chan-tears.gif')
         
@@ -115,7 +115,7 @@ if random_pick:
         col5,col6,col7=st.columns([1,2,1])
         #col6.subheader('try lowering your expectations')
         #st.image('https://c.tenor.com/yTEHRx1ofG4AAAAC/umaru-chan-tears.gif')
-        col6.image('megamind.png',caption="Try (unironically) lowering your expectations.")
+        col6.image('megamind.png',caption="Try (unironically) lowering your expectations.")   
         #st.markdown("""<img src="megamind.png" style="width:100%;">""",unsafe_allow_html=True)
     #show title
    
@@ -123,4 +123,4 @@ if random_pick:
    
 
     #show poster
-    
+ 
