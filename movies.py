@@ -93,6 +93,8 @@ if random_pick:
         #pick=random.randint(0,ls1.shape[0])
     
     try:
+
+
         placeholder.empty()
         imdb_id=base_url+ls1.iloc[pick]['imdb_title_id']    
         res = imdb.get_by_id(ls1.iloc[pick]['imdb_title_id'].replace("-i","tt"))
@@ -104,7 +106,7 @@ if random_pick:
 
                 st.write(ls1.iloc[pick]['description'])
     
-    except(TypeError):
+    except(KeyError):
         #col6.image('https://c.tenor.com/yTEHRx1ofG4AAAAC/umaru-chan-tears.gif')
         
         col6.header(ls1.iloc[pick]['original_title']+' '+'('+str(ls1.iloc[pick]['year'])+')')
