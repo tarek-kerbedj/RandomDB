@@ -12,4 +12,4 @@ pip install requirements.txt
 streamlit run movies.py
 ```
 - have fun
-#### Note : this project is also deployed on heroku https://randomimdbmovie.herokuapp.com/
+#### Note : this project is also deployed on Render
