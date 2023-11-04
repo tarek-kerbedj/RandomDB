@@ -6,7 +6,7 @@ import pandas as pd
 
 
 @st.cache_data
-def get_data():
+def get_data()->pd.DataFrame:
     try:
         return pd.read_feather("movies.feather")
     except:
@@ -14,7 +14,7 @@ def get_data():
 
 
 @st.cache_resource
-def imdb_api_call():
+def imdb_api_call()->IMDB:
     try:
         imdb = IMDB()
         return imdb
@@ -23,7 +23,7 @@ def imdb_api_call():
         st.stop()
 
 
-def filter_movies(movies, genre, language, rating, year):
+def filter_movies(movies: pd.DataFrame, genre: str, language: str, rating: float, year:tuple)->pd.DataFrame:
     expr = movies[
         (movies["year"] > year[0])
         & (movies["year"] < year[1])
