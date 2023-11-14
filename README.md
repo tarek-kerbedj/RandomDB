@@ -5,7 +5,7 @@
 ```
 pip install -r requirements.txt
 ```
-## Instructions
+## Instructions to run locally
 - cd to the project folder
 - run the script through the command line 
 ```
